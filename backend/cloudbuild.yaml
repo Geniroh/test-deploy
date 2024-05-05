@@ -1,38 +1,49 @@
-steps:
-  # Step 1: Download environment variables
-#   - id: download-env
-#     name: 'gcr.io/cloud-builders/gsutil'
-#     args: ['cp', 'gs://$_ENV_BUCKET_URL/.env.dev', '/storage/.env.dev']
-#     volumes:
-#       - name: 'myvolume'
-#         path: '/storage'
+# steps:
+#   # Step 1: Download environment variables
+# #   - id: download-env
+# #     name: 'gcr.io/cloud-builders/gsutil'
+# #     args: ['cp', 'gs://$_ENV_BUCKET_URL/.env.dev', '/storage/.env.dev']
+# #     volumes:
+# #       - name: 'myvolume'
+# #         path: '/storage'
 
-  # Step 2: Build TypeScript files
-  - id: build-typescript
-    name: 'gcr.io/cloud-builders/npm'
-    entrypoint: 'bash'
-    args: ['-c', 'npm install && npx tsc'] # Adjust npm commands as per your project
+#   # Step 2: Build TypeScript files
+#   - id: build-typescript
+#     name: 'gcr.io/cloud-builders/npm'
+#     entrypoint: 'bash'
+#     args: ['-c', 'npm install && npx tsc'] # Adjust npm commands as per your project
 
-  # Step 3: Build Docker image
-  - id: build-image
-    name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'gcr.io/my-project-72088-1707044232660/test-backend1:$SHORT_SHA', './backend/']
+#   # Step 3: Build Docker image
+#   - id: build-image
+#     name: 'gcr.io/cloud-builders/docker'
+#     args: ['build', '-t', 'gcr.io/my-project-72088-1707044232660/test-backend1:$SHORT_SHA', './backend/']
 
-  # Step 4: Push Docker image to Container Registry
-  - id: push-image
-    name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'gcr.io/my-project-72088-1707044232660/test-backend1:$SHORT_SHA']
+#   # Step 4: Push Docker image to Container Registry
+#   - id: push-image
+#     name: 'gcr.io/cloud-builders/docker'
+#     args: ['push', 'gcr.io/my-project-72088-1707044232660/test-backend1:$SHORT_SHA']
 
-  # Step 5: Deploy to Cloud Run
-  - id: deploy-image
-    name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    entrypoint: 'gcloud'
-    args: [
-      'run', 'deploy', '$_GCP_SERVICE_NAME',
-      '--image=gcr.io/my-project-72088-1707044232660/test-backend1:$SHORT_SHA',
-      '--region=us-central1', '--allow-unauthenticated',
-      #'--set-env-vars', 'YOUR_ENV_VARIABLE=VALUE', # Adjust environment variables as needed
-      '--platform', 'managed'
-    ]
+#   # Step 5: Deploy to Cloud Run
+#   - id: deploy-image
+#     name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+#     entrypoint: 'gcloud'
+#     args: [
+#       'run', 'deploy', '$_GCP_SERVICE_NAME',
+#       '--image=gcr.io/my-project-72088-1707044232660/test-backend1:$SHORT_SHA',
+#       '--region=us-central1', '--allow-unauthenticated',
+#       #'--set-env-vars', 'YOUR_ENV_VARIABLE=VALUE', # Adjust environment variables as needed
+#       '--platform', 'managed'
+#     ]
    
-images: ['gcr.io/my-project-72088-1707044232660/test-backend1:$SHORT_SHA']
+# images: ['gcr.io/my-project-72088-1707044232660/test-backend1:$SHORT_SHA']
+
+
+steps:
+    - name: 'gcr.io/cloud-builders/npm'  
+      args: ['install']
+    - name: 'gcr.io/cloud-builders/npm'  
+      args: ['build']
+    - name: "gcr.io/cloud-builders/gcloud"  
+      args: ["app", "deploy"]
+      
+timeout: "1600s"
