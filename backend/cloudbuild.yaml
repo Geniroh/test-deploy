@@ -15,6 +15,7 @@ steps:
   args: 
     - 'run'
     - 'deploy'
+    - 'test-backend1' # Replace with your preferred service name
     - '--image=eu.gcr.io/my-project-72088-1707044232660/test-backend:$SHORT_SHA'
     - '--region=us-central1'
     - '--allow-unauthenticated'
@@ -22,26 +23,5 @@ steps:
     - '--memory=2Gi'
     - '--cpu-boost'
     - '--timeout=500s'
-    - '--platform=managed'
-    
-#   volumes:
-#     - name: 'myvolume'
-#       path: '/storage'
-
-
-# - id: deploy-image
-#   name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-#   entrypoint: gcloud
-#   args: 
-#     - 'run'
-#     - 'deploy'
-#     - '$_GCP_SERVICE_NAME' # Replace with your preferred service name
-#     - '--image=eu.gcr.io/my-project-72088-1707044232660/test-backend:$SHORT_SHA'
-#     - '--region=us-central1'
-#     - '--allow-unauthenticated'
-#     - '--cpu=2'
-#     - '--memory=2Gi'
-#     - '--cpu-boost'
-#     - '--timeout=500s'
 
 images: ['eu.gcr.io/my-project-72088-1707044232660/test-backend:$SHORT_SHA']
