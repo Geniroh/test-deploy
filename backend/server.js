@@ -7,10 +7,10 @@ const express_1 = __importDefault(require("express"));
 const app = (0, express_1.default)();
 const PORT = Number(process.env.PORT) || 8080;
 const auth_1 = __importDefault(require("./routes/auth"));
+app.use("/auth", auth_1.default);
 app.get("/", (req, res) => {
-    res.send("Hello World...");
+    res.send("Hello World... 2");
 });
-app.get("/auth", auth_1.default);
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });

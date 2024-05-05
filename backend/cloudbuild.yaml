@@ -11,7 +11,7 @@ steps:
   - id: build-typescript
     name: 'gcr.io/cloud-builders/npm'
     entrypoint: 'bash'
-    args: ['-c', 'npm install && npm run build'] # Adjust npm commands as per your project
+    args: ['-c', 'npm install'] # Adjust npm commands as per your project
 
   # Step 3: Build Docker image
   - id: build-image
