@@ -23,7 +23,7 @@ steps:
     - '--cpu-boost'
     - '--timeout=500s'
     - '--platform=managed'
-    - '--prompt-for-service' # Prompt for service name
+    
 #   volumes:
 #     - name: 'myvolume'
 #       path: '/storage'
