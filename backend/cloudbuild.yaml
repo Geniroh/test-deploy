@@ -14,7 +14,7 @@ steps:
   args: 
     - 'run'
     - 'deploy'
-    - '_GCP_SERVICE_NAME' # Replace with your preferred service name
+    - '$_GCP_SERVICE_NAME' # Replace with your preferred service name
     - '--image=eu.gcr.io/my-project-72088-1707044232660/test-backend:$SHORT_SHA'
     - '--region=us-central1'
     - '--allow-unauthenticated'
