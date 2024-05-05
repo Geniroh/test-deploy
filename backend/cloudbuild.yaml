@@ -28,14 +28,11 @@ steps:
     name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: 'gcloud'
     args: [
-      'run', 'deploy', 'your-service-name',
+      'run', 'deploy', '$_GCP_SERVICE_NAME',
       '--image=gcr.io/my-project-72088-1707044232660/test-backend1:$SHORT_SHA',
       '--region=us-central1', '--allow-unauthenticated',
       #'--set-env-vars', 'YOUR_ENV_VARIABLE=VALUE', # Adjust environment variables as needed
       '--platform', 'managed'
     ]
-    volumes:
-      - name: 'myvolume'
-        path: '/storage'
-
+   
 images: ['gcr.io/my-project-72088-1707044232660/test-backend1:$SHORT_SHA']
