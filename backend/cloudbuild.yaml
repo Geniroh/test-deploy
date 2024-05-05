@@ -1,0 +1,41 @@
+steps:
+  # Step 1: Download environment variables
+#   - id: download-env
+#     name: 'gcr.io/cloud-builders/gsutil'
+#     args: ['cp', 'gs://$_ENV_BUCKET_URL/.env.dev', '/storage/.env.dev']
+#     volumes:
+#       - name: 'myvolume'
+#         path: '/storage'
+
+  # Step 2: Build TypeScript files
+  - id: build-typescript
+    name: 'gcr.io/cloud-builders/npm'
+    entrypoint: 'bash'
+    args: ['-c', 'npm install && npm run build'] # Adjust npm commands as per your project
+
+  # Step 3: Build Docker image
+  - id: build-image
+    name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/my-project-72088-1707044232660/test-backend1:$SHORT_SHA', './backend/']
+
+  # Step 4: Push Docker image to Container Registry
+  - id: push-image
+    name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/my-project-72088-1707044232660/test-backend1:$SHORT_SHA']
+
+  # Step 5: Deploy to Cloud Run
+  - id: deploy-image
+    name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'gcloud'
+    args: [
+      'run', 'deploy', 'your-service-name',
+      '--image=gcr.io/my-project-72088-1707044232660/test-backend1:$SHORT_SHA',
+      '--region=us-central1', '--allow-unauthenticated',
+      #'--set-env-vars', 'YOUR_ENV_VARIABLE=VALUE', # Adjust environment variables as needed
+      '--platform', 'managed'
+    ]
+    volumes:
+      - name: 'myvolume'
+        path: '/storage'
+
+images: ['gcr.io/my-project-72088-1707044232660/test-backend1:$SHORT_SHA']
